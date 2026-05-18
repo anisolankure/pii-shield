@@ -167,6 +167,9 @@ document.getElementById('btn-test-slm')?.addEventListener('click', async () => {
     env.allowRemoteModels = false;
     env.useBrowserCache = false;
     
+    // Point to local WASM files
+    env.backends.onnx.wasm.wasmPaths = `${extensionUrl}lib/`;
+    
     statusEl.innerText = '⏳ Loading 27MB BERT-small model from extension package...';
     
     // Load the local token classification pipeline
