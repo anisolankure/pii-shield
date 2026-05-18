@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "PII Shield",
+    "description": "The name of the extension"
+  },
+  "appDescription": {
+    "message": "Detects and alerts you when PII is entered into AI tools. UK-focused privacy protection.",
+    "description": "Extension description"
+  }
+}

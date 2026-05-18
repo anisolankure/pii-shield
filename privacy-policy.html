@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — PII Shield</title>
+  <meta name="description" content="Privacy policy for PII Shield Chrome extension. Learn how we handle your data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f0f17;
+      --bg2:      #1a1a2e;
+      --border:   rgba(255,255,255,0.08);
+      --text:     #e2e8f0;
+      --muted:    #94a3b8;
+      --accent:   #6366f1;
+      --safe:     #22c55e;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon { font-size: 28px; }
+
+    .logo-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logo-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 56px 0 80px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .last-updated {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 40px 0 12px;
+      color: var(--text);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p { margin-bottom: 16px; color: var(--muted); }
+
+    ul {
+      margin: 0 0 16px 20px;
+      color: var(--muted);
+    }
+
+    ul li { margin-bottom: 6px; }
+
+    .highlight-box {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 32px 0;
+    }
+
+    .highlight-box p {
+      color: var(--safe);
+      font-weight: 500;
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .highlight-box p::before {
+      content: "🔒 ";
+    }
+
+    a { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <div class="logo-icon">🛡️</div>
+        <div>
+          <div class="logo-name">PII Shield</div>
+          <div class="logo-sub">AI Privacy Guard</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last updated: May 2026 &nbsp;·&nbsp; Applies to: PII Shield Chrome Extension</p>
+
+      <div class="highlight-box">
+        <p>PII Shield processes all data entirely on your device. No personal information, no detected PII, and no usage data is ever sent to any server or third party.</p>
+      </div>
+
+      <h2>1. Who We Are</h2>
+      <p>PII Shield is a Chrome browser extension developed and maintained by an individual developer. If you have questions about this policy, contact us at: <a href="mailto:support@piishield.dev">support@piishield.dev</a></p>
+
+      <h2>2. What Data We Process</h2>
+      <p>PII Shield analyses text you type into supported AI websites in order to detect personally identifiable information (PII). This includes:</p>
+      <ul>
+        <li>Text entered into AI chat interfaces (e.g. ChatGPT, Gemini, Claude)</li>
+        <li>Patterns that may indicate PII such as email addresses, phone numbers, or National Insurance numbers</li>
+      </ul>
+      <p><strong>This analysis happens entirely within your browser using JavaScript. The text is never transmitted anywhere.</strong></p>
+
+      <h2>3. Data We Do Not Collect</h2>
+      <p>We do not collect, store, transmit, or share:</p>
+      <ul>
+        <li>Any text you type or paste into websites</li>
+        <li>Any detected PII or scan results</li>
+        <li>Your browsing history or visited URLs</li>
+        <li>Personal information of any kind</li>
+        <li>Analytics or usage statistics (unless you explicitly opt in — not currently implemented)</li>
+      </ul>
+
+      <h2>4. Permissions Used</h2>
+      <p>PII Shield requests the following Chrome permissions, and only uses them for the stated purposes:</p>
+      <ul>
+        <li><strong>storage</strong> — saves your settings (on/off, which features are enabled) locally in Chrome's sync storage. No PII is stored.</li>
+        <li><strong>sidePanel</strong> — displays the PII warnings panel on the right side of your browser.</li>
+        <li><strong>activeTab / scripting</strong> — injects the detection script into the current tab so it can monitor text input. Only runs on the supported AI sites listed in the extension.</li>
+      </ul>
+      <p>The extension only activates on a specific list of AI websites (ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok, HuggingFace). It does not run on any other websites.</p>
+
+      <h2>5. Data Storage</h2>
+      <p>The only data stored by this extension is your <strong>preferences</strong> (e.g. whether detection is enabled, whether highlights are shown). This is stored using Chrome's built-in <code>chrome.storage.sync</code> API, which may sync across your Chrome devices if you are signed in to Chrome. It contains no PII.</p>
+
+      <h2>6. Third Parties</h2>
+      <p>PII Shield does not use any third-party analytics, advertising, tracking, or data collection services. No data is shared with third parties.</p>
+
+      <h2>7. Children's Privacy</h2>
+      <p>This extension is not directed at children under the age of 13. We do not knowingly collect any data from children.</p>
+
+      <h2>8. Your Rights (UK GDPR)</h2>
+      <p>Because we do not collect personal data, there is no data held about you to access, correct, or delete. If you have any concerns, please contact us and we will respond within 30 days.</p>
+
+      <h2>9. Changes to This Policy</h2>
+      <p>We may update this policy if the extension's functionality changes. The "last updated" date at the top of this page will reflect any changes. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
+
+      <h2>10. Contact</h2>
+      <p>For any privacy-related questions or requests:<br>
+      📧 <a href="mailto:anisolankure001@gmail.com">anisolankure001@gmail.com</a></p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2025 PII Shield. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

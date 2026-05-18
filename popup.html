@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PII Shield</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="popup">
+    <!-- Header -->
+    <div id="pop-header">
+      <div id="pop-logo">🛡️</div>
+      <div>
+        <div id="pop-title">PII Shield</div>
+        <div id="pop-version">v1.0 · UK Privacy Guard</div>
+      </div>
+      <label class="toggle" id="master-toggle-wrap" title="Enable/disable protection">
+        <input type="checkbox" id="master-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Status chip -->
+    <div id="pop-status-chip" class="status-active">
+      <span id="status-dot"></span>
+      <span id="status-text">Protected on this site</span>
+    </div>
+
+    <!-- Quick stats -->
+    <div id="pop-stats">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-session">0</div>
+        <div class="stat-lbl">This session</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-lbl">All time</div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="pop-settings">
+      <div class="setting-row">
+        <div class="setting-info">
+          <div class="setting-label">Inline highlights</div>
+          <div class="setting-desc">Underline PII in the chat input</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-highlight" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-info">
+          <div class="setting-label">Side panel alerts</div>
+          <div class="setting-desc">Show detailed PII list in side panel</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-sidepanel" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Coverage -->
+    <div id="pop-coverage">
+      <div class="coverage-title">AI Sites Monitored</div>
+      <div class="coverage-grid">
+        <div class="site-chip">ChatGPT</div>
+        <div class="site-chip">Claude</div>
+        <div class="site-chip">Gemini</div>
+        <div class="site-chip">Copilot</div>
+        <div class="site-chip">Perplexity</div>
+        <div class="site-chip">Grok</div>
+        <div class="site-chip">HuggingFace</div>
+        <div class="site-chip">Bing Chat</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="pop-actions">
+      <button id="btn-open-panel">Open Side Panel</button>
+      <button id="btn-privacy" class="btn-secondary">Privacy Policy</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

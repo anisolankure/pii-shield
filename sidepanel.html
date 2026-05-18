@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PII Shield</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header id="sp-header">
+      <div id="sp-logo">
+        <div id="sp-icon">🛡️</div>
+        <div>
+          <div id="sp-title">PII Shield</div>
+          <div id="sp-subtitle">AI Privacy Guard</div>
+        </div>
+      </div>
+      <div id="sp-badge-wrap">
+        <div id="sp-count-badge" class="hidden">0</div>
+        <button id="sp-clear-btn" title="Clear all findings" class="hidden">Clear</button>
+      </div>
+    </header>
+
+    <!-- Status bar -->
+    <div id="sp-status-bar">
+      <div id="sp-site-info">
+        <span id="sp-site-icon">🌐</span>
+        <span id="sp-site-name">No active site</span>
+      </div>
+      <div id="sp-toggle-row">
+        <span>Protection</span>
+        <label class="toggle">
+          <input type="checkbox" id="sp-enabled-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Summary cards -->
+    <div id="sp-summary">
+      <div class="summary-card" id="card-high">
+        <div class="card-count" id="count-high">0</div>
+        <div class="card-label">High Risk</div>
+      </div>
+      <div class="summary-card" id="card-medium">
+        <div class="card-count" id="count-medium">0</div>
+        <div class="card-label">Medium</div>
+      </div>
+      <div class="summary-card" id="card-low">
+        <div class="card-count" id="count-low">0</div>
+        <div class="card-label">Low</div>
+      </div>
+    </div>
+
+    <!-- Findings list -->
+    <div id="sp-findings-header" class="hidden">
+      <span>Detected PII</span>
+      <button id="sp-copy-btn" title="Copy summary to clipboard">📋 Copy</button>
+    </div>
+
+    <div id="sp-findings-list">
+      <!-- Empty state -->
+      <div id="sp-empty-state">
+        <div id="sp-empty-icon">✅</div>
+        <div id="sp-empty-title">All clear!</div>
+        <div id="sp-empty-desc">No PII detected in your current input. Keep typing to monitor in real time.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="sp-footer">
+      <div id="sp-privacy-note">🔒 100% local processing — nothing leaves your browser</div>
+      <div id="sp-footer-links">
+        <a href="#" id="sp-settings-link">Settings</a>
+        <span>·</span>
+        <a href="https://anisolankure.github.io/pii-shield/" target="_blank">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
