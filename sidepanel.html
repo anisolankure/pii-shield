@@ -71,6 +71,13 @@
       </div>
     </div>
 
+    <!-- V2 SLM Diagnostics -->
+    <div id="slm-diagnostics" style="margin: 16px; padding: 12px; background: rgba(99, 102, 241, 0.1); border: 1px dashed var(--accent); border-radius: 8px; text-align: center;">
+      <h3 style="font-size: 12px; color: var(--accent); margin-bottom: 8px;">V2 AI Engine Test</h3>
+      <button id="btn-test-slm" style="background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;">Ping Local SLM</button>
+      <div id="slm-status" style="margin-top: 8px; font-size: 11px; color: var(--muted); word-wrap: break-word;">Waiting to test...</div>
+    </div>
+
     <!-- Footer -->
     <footer id="sp-footer">
       <div id="sp-privacy-note">🔒 100% local processing — nothing leaves your browser</div>
@@ -82,6 +89,7 @@
     </footer>
   </div>
 
+  <script src="lib/transformers.js"></script>
   <script src="sidepanel.js"></script>
 </body>
 </html>

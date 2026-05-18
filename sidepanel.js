@@ -145,4 +145,65 @@ function cleanHostname(h) {
   return h.replace(/^www\./, '');
 }
 
+// ── V2 SLM Test Logic (Transformers.js Local Model) ────────────────────────
+document.getElementById('btn-test-slm')?.addEventListener('click', async () => {
+  const statusEl = document.getElementById('slm-status');
+  statusEl.innerText = 'Initializing local PII neural network...';
+  statusEl.style.color = '#f59e0b';
+  statusEl.style.textAlign = 'left';
+  
+  try {
+    if (!window.transformers) {
+      statusEl.style.color = '#ef4444';
+      statusEl.innerText = '❌ Transformers.js library not loaded.';
+      return;
+    }
+
+    const { env, pipeline } = window.transformers;
+    
+    // Point to our packaged folder
+    const extensionUrl = chrome.runtime.getURL('');
+    env.localModelPath = `${extensionUrl}models/`;
+    env.allowRemoteModels = false;
+    env.useBrowserCache = false;
+    
+    statusEl.innerText = '⏳ Loading 27MB BERT-small model from extension package...';
+    
+    // Load the local token classification pipeline
+    const classifier = await pipeline('token-classification', 'pii', {
+      quantized: true
+    });
+    
+    statusEl.innerText = '⚡ Model loaded! Analyzing sample prompt...';
+    
+    const text = "Hi, my name is Sarah Connor and I work for Skynet in Cyberdyne. Email me at sarah@connor.com.";
+    const results = await classifier(text);
+    
+    if (!results || results.length === 0) {
+      statusEl.style.color = '#f59e0b';
+      statusEl.innerText = '✅ Scan complete: No complex PII found in sample.';
+      return;
+    }
+    
+    // Format detected entities
+    const outputLines = [
+      '✅ Local PII Neural Network works!',
+      `Analyzed: "${text}"`,
+      '',
+      'Detected Entities:'
+    ];
+    
+    results.forEach(item => {
+      outputLines.push(`• "${item.word}" ➔ Type: ${item.entity} (Score: ${Math.round(item.score * 100)}%)`);
+    });
+    
+    statusEl.style.color = '#22c55e';
+    statusEl.innerText = outputLines.join('\n');
+    
+  } catch (err) {
+    statusEl.style.color = '#ef4444';
+    statusEl.innerText = `❌ Error: ${err.message}`;
+  }
+});
+
 init();
