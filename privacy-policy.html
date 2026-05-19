@@ -153,9 +153,9 @@
       <p>PII Shield is a Chrome browser extension developed and maintained by an individual developer. If you have questions about this policy, contact us at: <a href="mailto:support@piishield.dev">support@piishield.dev</a></p>
 
       <h2>2. What Data We Process</h2>
-      <p>PII Shield analyses text you type into supported AI websites in order to detect personally identifiable information (PII). This includes:</p>
+      <p>PII Shield analyses text you type into supported AI chat websites in order to detect personally identifiable information (PII). This includes:</p>
       <ul>
-        <li>Text entered into AI chat interfaces (e.g. ChatGPT, Gemini, Claude)</li>
+        <li>Text entered into AI chat interfaces while using a supported AI tool</li>
         <li>Patterns that may indicate PII such as email addresses, phone numbers, or National Insurance numbers</li>
       </ul>
       <p><strong>This analysis happens entirely within your browser using JavaScript. The text is never transmitted anywhere.</strong></p>
@@ -177,7 +177,7 @@
         <li><strong>sidePanel</strong> — displays the PII warnings panel on the right side of your browser.</li>
         <li><strong>activeTab / scripting</strong> — injects the detection script into the current tab so it can monitor text input. Only runs on the supported AI sites listed in the extension.</li>
       </ul>
-      <p>The extension only activates on a specific list of AI websites (ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok, HuggingFace). It does not run on any other websites.</p>
+      <p>The extension only activates on a specific list of supported AI chat websites. It does not run on any other websites.</p>
 
       <h2>5. Data Storage</h2>
       <p>The only data stored by this extension is your <strong>preferences</strong> (e.g. whether detection is enabled, whether highlights are shown). This is stored using Chrome's built-in <code>chrome.storage.sync</code> API, which may sync across your Chrome devices if you are signed in to Chrome. It contains no PII.</p>
