@@ -1,23 +1,43 @@
-/**
- * PII Shield — Background Service Worker
- */
-
-let latestFindings = [];
+let latestText = '';
+let latestRegexFindings = [];
+let latestCombinedFindings = [];
 let latestSite = '';
+let latestTabId = null;
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg.type === 'PII_DETECTED') {
-    latestFindings = msg.findings || [];
+  if (msg.type === 'PII_INPUT_CHANGED') {
+    latestText = msg.text || '';
+    latestRegexFindings = msg.regexFindings || [];
     latestSite = msg.site || '';
-    updateBadge(latestFindings.length, sender.tab?.id);
-    // Forward to side panel if open
-    chrome.runtime.sendMessage({ type: 'UPDATE_PANEL', findings: latestFindings, site: latestSite }).catch(() => {});
+    latestTabId = sender.tab?.id || null;
+    
+    // Default badge update using regex findings until AI scan updates it
+    updateBadge(latestRegexFindings.length, latestTabId);
+    
+    // Forward to side panel with tab ID context
+    chrome.runtime.sendMessage({
+      type: 'UPDATE_INPUT',
+      text: latestText,
+      regexFindings: latestRegexFindings,
+      site: latestSite,
+      tabId: latestTabId
+    }).catch(() => {});
   }
 
   if (msg.type === 'PII_CLEARED') {
-    latestFindings = [];
-    updateBadge(0, sender.tab?.id);
-    chrome.runtime.sendMessage({ type: 'UPDATE_PANEL', findings: [], site: latestSite }).catch(() => {});
+    latestText = '';
+    latestRegexFindings = [];
+    latestCombinedFindings = [];
+    latestTabId = sender.tab?.id || latestTabId;
+    updateBadge(0, latestTabId);
+    
+    chrome.runtime.sendMessage({
+      type: 'UPDATE_INPUT',
+      text: '',
+      regexFindings: [],
+      site: latestSite,
+      tabId: latestTabId
+    }).catch(() => {});
   }
 
   if (msg.type === 'OPEN_SIDE_PANEL') {
@@ -25,8 +45,28 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 
   if (msg.type === 'GET_FINDINGS') {
-    sendResponse({ findings: latestFindings, site: latestSite });
+    sendResponse({
+      text: latestText,
+      regexFindings: latestRegexFindings,
+      combinedFindings: latestCombinedFindings,
+      site: latestSite,
+      tabId: latestTabId
+    });
     return true;
+  }
+
+  if (msg.type === 'UPDATE_COMBINED_FINDINGS') {
+    latestCombinedFindings = msg.findings || [];
+    const targetTabId = msg.tabId || latestTabId;
+    updateBadge(latestCombinedFindings.length, targetTabId);
+    
+    // Forward combined findings back to active tab to highlight AI detections
+    if (targetTabId) {
+      chrome.tabs.sendMessage(targetTabId, {
+        type: 'AI_FINDINGS_DETECTED',
+        findings: latestCombinedFindings
+      }).catch(() => {});
+    }
   }
 });
 

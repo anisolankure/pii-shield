@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PII Shield Test Page</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 40px; background: #0b0f19; color: #f1f5f9; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 24px; margin-bottom: 8px; color: #6366f1; }
+    p { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 16px;
+      font-size: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #111827;
+      color: #f1f5f9;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea:focus { border-color: #6366f1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛡️ PII Shield Live-Scan Test</h1>
+    <p>Type some text below to trigger live PII detection. Regex detects specific cards/numbers/emails instantly. Local BERT AI detects names, locations and organizations contextually.</p>
+    <textarea id="test-textarea" placeholder="Start typing here..."></textarea>
+  </div>
+</body>
+</html>

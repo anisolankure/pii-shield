@@ -31,6 +31,7 @@ let observedElements = new Set();
 let settings = { enabled: true, highlightEnabled: true, sidePanelEnabled: true };
 let toastShownThisSession = false;
 let toastEl = null;
+let lastInputEl = null;
 
 async function init() {
   const stored = await chrome.storage.sync.get(['settings']);
@@ -73,32 +74,43 @@ function attachListener(el) {
 }
 
 function handleInput(el) {
+  lastInputEl = el;
   const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
-  if (!text || text.trim().length < 3) { clearHighlights(el); return; }
-
-  const findings = window.PIIEngine.scanText(text);
-  currentFindings = findings;
-
-  if (findings.length === 0) {
+  if (!text || text.trim().length < 3) {
     clearHighlights(el);
     notifyBg({ type: 'PII_CLEARED' });
     return;
   }
 
-  if (settings.highlightEnabled) applyHighlights(el, text, findings);
+  const findings = window.PIIEngine.scanText(text);
+  currentFindings = findings;
+
+  if (settings.highlightEnabled) {
+    applyHighlights(el, text, findings);
+  }
 
   if (settings.sidePanelEnabled) {
     notifyBg({
-      type: 'PII_DETECTED',
-      findings: findings.map(f => ({
-        label: f.label, severity: f.severity, color: f.color,
-        match: maskPII(f.match, f.patternId), description: f.description
+      type: 'PII_INPUT_CHANGED',
+      text: text,
+      regexFindings: findings.map(f => ({
+        patternId: f.patternId,
+        label: f.label,
+        severity: f.severity,
+        color: f.color,
+        match: f.match,
+        index: f.index,
+        end: f.end,
+        description: f.description
       })),
       site: location.hostname
     });
   }
 
-  if (!toastShownThisSession) { toastShownThisSession = true; showToast(findings); }
+  if (findings.length > 0 && !toastShownThisSession) {
+    toastShownThisSession = true;
+    showToast(findings);
+  }
 }
 
 // ── Highlights ─────────────────────────────────────────────────────────────
@@ -190,7 +202,7 @@ function showToast(findings) {
     notifyBg({ type: 'OPEN_SIDE_PANEL' }); // use guarded helper, not raw sendMessage
     toastEl?.remove();
   });
-  setTimeout(() => toastEl?.remove(), 8000);
+  setTimeout(() => toastEl?.remove(), 20000);
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -218,7 +230,15 @@ function notifyBg(msg) {
 
 function handleMessage(msg, _sender, sendResponse) {
   if (!chrome.runtime?.id) return; // guard against invalidated context
-  if (msg.type === 'SETTINGS_UPDATED') settings = { ...settings, ...msg.settings };
+  if (msg.type === 'SETTINGS_UPDATED') {
+    settings = { ...settings, ...msg.settings };
+  }
+  if (msg.type === 'AI_FINDINGS_DETECTED' && lastInputEl && settings.highlightEnabled) {
+    const text = lastInputEl.tagName === 'TEXTAREA' || lastInputEl.tagName === 'INPUT' ? lastInputEl.value : (lastInputEl.innerText || '');
+    if (text.trim().length >= 3) {
+      applyHighlights(lastInputEl, text, msg.findings);
+    }
+  }
 }
 
 function debounce(fn, delay) {
