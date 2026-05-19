@@ -45,7 +45,7 @@ async function init() {
   });
 
   btnPrivacy.addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://anisolankure.github.io/pii-shield/' });
+    chrome.tabs.create({ url: 'https://anisolankure.github.io/pii-shield/privacy-policy' });
   });
 }
 
