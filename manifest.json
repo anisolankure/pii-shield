@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PII Shield — AI Privacy Guard",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Detects and alerts you when personally identifiable information (PII) is entered into AI tools. Protects your privacy automatically.",
   "default_locale": "en",
 
