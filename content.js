@@ -105,8 +105,8 @@ function handleInput(el) {
 
 function applyHighlights(el, text, findings) {
   // Only apply the overlay on plain textarea/input elements where font
-  // mirroring is reliable. contenteditable divs (used by ChatGPT, Claude,
-  // Gemini etc.) have complex rich-text rendering that makes pixel-perfect
+  // mirroring is reliable. Rich-text editors (used by various AI chat platforms)
+  // have complex rich-text rendering that makes pixel-perfect
   // overlay alignment impossible across all sites. The side panel + toast
   // provide full coverage for those elements instead.
   if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
