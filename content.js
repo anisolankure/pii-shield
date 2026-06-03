@@ -66,6 +66,14 @@ function isExemptElement(el) {
 function attachListener(el) {
   const handler = () => {
     clearTimeout(debounceTimer);
+    const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
+    // Clear immediately when input is empty (no debounce needed)
+    if (!text || text.trim().length < 3) {
+      clearHighlights(el);
+      notifyBg({ type: 'PII_CLEARED' });
+      return;
+    }
+    // Debounce detection only (300ms is fine for typing)
     debounceTimer = setTimeout(() => handleInput(el), 300);
   };
   el.addEventListener('input', handler);
@@ -74,7 +82,7 @@ function attachListener(el) {
 
 function handleInput(el) {
   const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
-  if (!text || text.trim().length < 3) { clearHighlights(el); notifyBg({ type: 'PII_CLEARED' }); return; }
+  if (!text || text.trim().length < 3) return;
 
   const findings = window.PIIEngine.scanText(text);
   currentFindings = findings;
