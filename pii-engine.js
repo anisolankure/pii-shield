@@ -47,8 +47,9 @@ const PII_PATTERNS = [
     label: 'Phone Number',
     severity: 'medium',
     color: '#f97316',
-    regex: /(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s\-.]?\d{1,4}[\s\-.]?\d{1,9}/g,
-    description: 'Phone number (international or domestic format)'
+    regex: /(?:\+\d{1,3}\s?)?(?:\([\d\s]+\)|[\d\s\-\.]+)(?:[\s\-.]?[\d\s\-\.])*[\d]/g,
+    description: 'Phone number (international or domestic format)',
+    validate: (match) => validatePhone(match)
   },
   {
     id: 'sort_code',
@@ -139,6 +140,35 @@ function luhnNHS(num) {
   if (checkDigit === 10) return false;
   return parseInt(num[9], 10) === checkDigit;
 }
+
+/**
+ * Phone number validation — ensures a match is actually a phone number
+ * and not random digits or false positives like version numbers
+ */
+function validatePhone(match) {
+  // Extract only digits
+  const digits = match.replace(/\D/g, '');
+
+  // Must have 7-15 digits (covers most international formats)
+  if (digits.length < 7 || digits.length > 15) return false;
+
+  // Don't match pure sequential digits (e.g., 1234567 or 9999999)
+  if (/^(\d)\1{5,}$/.test(digits)) return false;
+
+  // International format check: if starts with +, needs 9+ digits after
+  if (match.startsWith('+')) {
+    const afterPlus = digits.slice(match.match(/^\+\d+/)[0].replace(/\D/g, '').length);
+    if (afterPlus.length < 6) return false;
+  }
+
+  // Parentheses should be properly paired
+  const openParen = (match.match(/\(/g) || []).length;
+  const closeParen = (match.match(/\)/g) || []).length;
+  if (openParen !== closeParen) return false;
+
+  return true;
+}
+
 
 /**
  * Scan a string for PII matches.
