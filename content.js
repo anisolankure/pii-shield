@@ -74,7 +74,7 @@ function attachListener(el) {
 
 function handleInput(el) {
   const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
-  if (!text || text.trim().length < 3) { clearHighlights(el); return; }
+  if (!text || text.trim().length < 3) { clearHighlights(el); notifyBg({ type: 'PII_CLEARED' }); return; }
 
   const findings = window.PIIEngine.scanText(text);
   currentFindings = findings;
