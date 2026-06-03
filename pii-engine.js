@@ -143,7 +143,7 @@ function luhnNHS(num) {
 
 /**
  * Phone number validation — ensures a match is actually a phone number
- * and not random digits or false positives like version numbers
+ * and not random digits or false positives like version numbers, IPs, or account numbers
  */
 function validatePhone(match) {
   // Extract only digits
@@ -152,10 +152,16 @@ function validatePhone(match) {
   // Must have 7-15 digits (covers most international formats)
   if (digits.length < 7 || digits.length > 15) return false;
 
+  // Reject bare 8-digit sequences (likely account numbers, not phones)
+  if (digits.length === 8 && !match.includes('(') && !match.includes('+') && !match.includes('-')) return false;
+
   // Don't match pure sequential digits (e.g., 1234567 or 9999999)
   if (/^(\d)\1{5,}$/.test(digits)) return false;
 
-  // International format check: if starts with +, needs 9+ digits after
+  // Reject IP address patterns (consecutive dots like 192.168.1.1 → "192.168.1")
+  if (/^\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(match) || /^\d{1,3}\.\d{1,3}$/.test(match)) return false;
+
+  // International format check: if starts with +, needs 6+ digits after
   if (match.startsWith('+')) {
     const afterPlus = digits.slice(match.match(/^\+\d+/)[0].replace(/\D/g, '').length);
     if (afterPlus.length < 6) return false;

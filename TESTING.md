@@ -17,18 +17,18 @@ document.head.appendChild(script);
 
 ### Test Coverage
 
-**45 unit tests** covering:
+**37 unit tests** covering:
 
 #### Phone Numbers (17 tests)
 - ✅ US: `+1 (555) 123-4567`, `(555) 123-4567`, `555-123-4567`
 - ✅ UK: `07712 345678`, `+44 7712 345678`
 - ✅ International: `+33`, `+49`, `+61` formats
-- ✅ Rejects: version numbers, IPs, repeated digits
+- ✅ Rejects: version numbers, IPs, repeated digits, bare 8-digit numbers
 
-#### UK-Specific (10 tests)
+#### UK-Specific (6 tests)
 - NI Numbers, NHS Numbers, Sort Codes, Bank Accounts, Postcodes
 
-#### Generic (11 tests)
+#### Generic (8 tests)
 - Emails, Credit Cards, Dates, Names, Addresses
 
 #### Comprehensive (1 test)
