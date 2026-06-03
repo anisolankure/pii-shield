@@ -64,9 +64,11 @@ function isExemptElement(el) {
 }
 
 function attachListener(el) {
+  const getText = () => el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
+
   const handler = () => {
     clearTimeout(debounceTimer);
-    const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
+    const text = getText();
     // Clear immediately when input is empty (no debounce needed)
     if (!text || text.trim().length < 3) {
       clearHighlights(el);
@@ -76,8 +78,21 @@ function attachListener(el) {
     // Debounce detection only (300ms is fine for typing)
     debounceTimer = setTimeout(() => handleInput(el), 300);
   };
+
+  // Input event for text changes
   el.addEventListener('input', handler);
   el.addEventListener('paste', () => setTimeout(handler, 100));
+
+  // Keyup listener for immediate clearing (especially backspace/delete)
+  // KeyUp fires AFTER DOM is updated, so innerText will be current
+  el.addEventListener('keyup', () => {
+    const text = getText();
+    if (!text || text.trim().length < 3) {
+      clearTimeout(debounceTimer);
+      clearHighlights(el);
+      notifyBg({ type: 'PII_CLEARED' });
+    }
+  });
 }
 
 function handleInput(el) {
