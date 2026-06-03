@@ -1,5 +1,5 @@
 /**
- * PII Engine — UK-focused PII detection
+ * PII Engine — Global PII detection
  * All processing is local. Nothing leaves the browser.
  */
 
@@ -43,12 +43,12 @@ const PII_PATTERNS = [
     description: 'Email address'
   },
   {
-    id: 'uk_phone',
-    label: 'UK Phone Number',
+    id: 'phone',
+    label: 'Phone Number',
     severity: 'medium',
     color: '#f97316',
-    regex: /(\+44\s?|0)((7\d{3}|\d{4})\s?\d{3}\s?\d{3,4}|(800|808|3\d{2}|845|870)\s?\d{3}\s?\d{4})/g,
-    description: 'UK phone number (mobile or landline)'
+    regex: /(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s\-.]?\d{1,4}[\s\-.]?\d{1,9}/g,
+    description: 'Phone number (international or domestic format)'
   },
   {
     id: 'sort_code',

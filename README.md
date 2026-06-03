@@ -12,10 +12,12 @@
 
 1. Go to **chatgpt.com**, **claude.ai**, or any supported AI site
 2. Start typing in the chat box with PII such as:
-   - `My NI number is AB 12 34 56 C`
-   - `Call me on 07712 345678`
-   - `My postcode is SW1A 1AA`
-   - `Email me at john.smith@example.co.uk`
+   - `My NI number is AB 12 34 56 C` (UK)
+   - `Call me on 07712 345678` (UK)
+   - `Or reach me at +1 (555) 123-4567` (US)
+   - `Mon numéro est +33 1 23 45 67 89` (France)
+   - `My postcode is SW1A 1AA` (UK)
+   - `Email me at john.smith@example.com`
 3. Within ~300ms you should see:
    - **Amber underline** below the detected text
    - **Toast notification** at the bottom of the page
@@ -25,18 +27,18 @@
 ## Keyboard Shortcut
 `Ctrl+Shift+P` — Toggle the side panel from any supported page.
 
-## What's Detected (UK Focus)
+## What's Detected
 
 | Type | Severity | Example |
 |------|----------|---------|
-| NI Number | 🔴 High | AB 12 34 56 C |
-| NHS Number | 🔴 High | 943 476 5919 |
+| NI Number | 🔴 High | AB 12 34 56 C (UK) |
+| NHS Number | 🔴 High | 943 476 5919 (UK) |
 | Credit/Debit Card | 🔴 High | 4111 1111 1111 1111 |
-| Email | 🟠 Medium | user@example.co.uk |
-| UK Phone | 🟠 Medium | 07712 345678 / +44 7712... |
-| Sort Code | 🟠 Medium | 20-00-00 |
-| Bank Account | 🟠 Medium | 12345678 |
-| UK Postcode | 🟡 Low | SW1A 1AA |
+| Email | 🟠 Medium | user@example.com |
+| Phone Number | 🟠 Medium | +1 (555) 123-4567 / 07712 345678 / +33 1 23 45 67 89 |
+| Sort Code | 🟠 Medium | 20-00-00 (UK) |
+| Bank Account | 🟠 Medium | 12345678 (UK) |
+| Postcode | 🟡 Low | SW1A 1AA (UK) |
 | Date of Birth | 🟡 Low | 15/06/1990 |
 | Street Address | 🟡 Low | 12 Baker Street |
 | Full Name (titled) | 🟡 Low | Mr John Smith |
