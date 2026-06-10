@@ -102,6 +102,77 @@ const PII_PATTERNS = [
     // Title + two capitalised words — heuristic, some false positives expected
     regex: /\b(Mr|Mrs|Ms|Miss|Dr|Prof|Sir|Rev)\.?\s+([A-Z][a-z]+)\s+([A-Z][a-z]+)\b/g,
     description: 'Full name with title'
+  },
+
+  // ── INTERNATIONAL PATTERNS ──────────────────────────────────────
+  {
+    id: 'us_ssn',
+    label: 'US Social Security Number',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b(\d{3}[-\s]?\d{2}[-\s]?\d{4})\b/g,
+    description: 'US Social Security Number (9 digits)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      if (digits.length !== 9) return false;
+      // Reject invalid SSN patterns (000, 666, 900+)
+      const areaCode = digits.substring(0, 3);
+      return areaCode !== '000' && areaCode !== '666' && parseInt(areaCode) < 900;
+    }
+  },
+  {
+    id: 'us_drivers_license',
+    label: 'US Driver\'s License',
+    severity: 'medium',
+    color: '#f97316',
+    regex: /\b([A-Z]{1,2}\d{5,8}|[A-Z]\d{5}[A-Z]|[A-Z]{2}\d{3,5}[A-Z]{2})\b/g,
+    description: 'US Driver\'s License (state-specific format)'
+  },
+  {
+    id: 'au_tfn',
+    label: 'Australian Tax File Number',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b(\d{3}[\s\-]?\d{3}[\s\-]?\d{3})\b/g,
+    description: 'Australian Tax File Number (11 digits)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      return digits.length === 11;
+    }
+  },
+  {
+    id: 'ca_sin',
+    label: 'Canadian Social Insurance Number',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b(\d{3}[-\s]?\d{3}[-\s]?\d{3})\b/g,
+    description: 'Canadian Social Insurance Number (9 digits)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      if (digits.length !== 9) return false;
+      // Basic validation: first digit typically 1-9
+      return digits[0] !== '0';
+    }
+  },
+  {
+    id: 'de_tax_id',
+    label: 'German Tax ID',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b(\d{2}\s?\d{3}\s?\d{3}\s?\d{3}\s?\d{2}|\d{11})\b/g,
+    description: 'German Tax ID (Steuer-Identifikationsnummer)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      return digits.length === 11;
+    }
+  },
+  {
+    id: 'fr_siret',
+    label: 'French SIRET/SIREN',
+    severity: 'medium',
+    color: '#f97316',
+    regex: /\b([0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{5}|[0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{3})\b/g,
+    description: 'French SIRET (business) or SIREN (company) number'
   }
 ];
 

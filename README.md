@@ -29,16 +29,35 @@
 
 ## What's Detected
 
+### UK & Europe
 | Type | Severity | Example |
 |------|----------|---------|
-| NI Number | 🔴 High | AB 12 34 56 C (UK) |
-| NHS Number | 🔴 High | 943 476 5919 (UK) |
+| NI Number | 🔴 High | AB 12 34 56 C |
+| NHS Number | 🔴 High | 943 476 5919 |
+| Sort Code | 🟠 Medium | 20-00-00 |
+| Bank Account | 🟠 Medium | 12345678 |
+| UK Postcode | 🟡 Low | SW1A 1AA |
+
+### Americas
+| Type | Severity | Example |
+|------|----------|---------|
+| US Social Security Number | 🔴 High | 123-45-6789 |
+| US Driver's License | 🟠 Medium | CA1234567 |
+| Canadian SIN | 🔴 High | 123-456-789 |
+
+### Asia-Pacific & Other
+| Type | Severity | Example |
+|------|----------|---------|
+| Australian Tax File Number | 🔴 High | 123 456 789 |
+| German Tax ID | 🔴 High | 12 345 678 901 |
+| French SIRET/SIREN | 🟠 Medium | 123 456 789 12345 |
+
+### Global
+| Type | Severity | Example |
+|------|----------|---------|
 | Credit/Debit Card | 🔴 High | 4111 1111 1111 1111 |
 | Email | 🟠 Medium | user@example.com |
-| Phone Number | 🟠 Medium | +1 (555) 123-4567 / 07712 345678 / +33 1 23 45 67 89 |
-| Sort Code | 🟠 Medium | 20-00-00 (UK) |
-| Bank Account | 🟠 Medium | 12345678 (UK) |
-| Postcode | 🟡 Low | SW1A 1AA (UK) |
+| Phone Number | 🟠 Medium | +1 (555) 123-4567 / +44 7712 345678 / +33 1 23 45 67 89 |
 | Date of Birth | 🟡 Low | 15/06/1990 |
 | Street Address | 🟡 Low | 12 Baker Street |
 | Full Name (titled) | 🟡 Low | Mr John Smith |

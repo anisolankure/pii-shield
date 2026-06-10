@@ -1,0 +1,56 @@
+======================================
+PII SHIELD v1.0.5 - CWS LISTING UPDATE
+======================================
+
+SHORT DESCRIPTION (132 chars max):
+Detects personal information in AI chats. Pattern-matching + validation. 100% local processing.
+
+---
+
+FULL DESCRIPTION:
+PII Shield is a privacy-first browser extension that monitors your AI chat sessions in real time, alerting you before sensitive personal information is accidentally shared with an AI tool.
+
+HOW IT WORKS
+As you type, PII Shield scans your input entirely within your browser using precise pattern-matching rules. Nothing is ever sent to a server. No data leaves your device.
+
+WHAT IT DETECTS
+• Email addresses and phone numbers (global & international formats)
+• UK National Insurance numbers and NHS numbers
+• Credit and debit card numbers (with Luhn validation)
+• Bank sort codes and account numbers
+• UK postcodes and dates of birth
+• IP addresses and street addresses
+• Full names with titles
+
+WHEN PII IS FOUND
+• A warning toast appears at the bottom of the page
+• The detected text is highlighted inline
+• A detailed side panel lists all findings by severity (High / Medium / Low)
+• The extension badge shows a count of active detections
+
+PRIVACY FIRST
+All scanning happens entirely in your browser. No GPU, no cloud service, no API calls, and no telemetry. Everything stays in your browser tab. It only activates on the AI sites you enable and does not run in the background on other websites.
+
+PERMISSIONS EXPLAINED
+• storage — saves your on/off preferences locally; no PII is ever stored
+• sidePanel — shows the findings panel on the right side of your browser
+• activeTab — allows the extension to interact with your current tab
+
+---
+
+RELEASE NOTES (for this version):
+v1.0.5 — Global phone detection & validation improvements
+• Extended phone number detection to international formats (+1, +44, +33, etc.)
+• Added intelligent validation to reduce false positives
+• 37 comprehensive unit tests for all PII patterns
+• Improved UX: panel clears immediately when input is cleared
+• Chrome Web Store policy compliant — zero data collection
+
+======================================
+HOW TO UPDATE:
+1. Go to https://chrome.google.com/webstore/devconsole
+2. Click your extension "PII Shield"
+3. Paste the FULL DESCRIPTION above into the "Description" field
+4. Paste RELEASE NOTES into the "Release notes" field
+5. Click "Save draft" then "Submit for review"
+======================================
