@@ -133,7 +133,7 @@ const PII_PATTERNS = [
     label: 'Australian Tax File Number',
     severity: 'high',
     color: '#ef4444',
-    regex: /\b(\d{3}[\s\-]?\d{3}[\s\-]?\d{3})\b/g,
+    regex: /\b(\d{3}[\s\-]?\d{3}[\s\-]?\d{3}[\s\-]?\d{2}|\d{11})\b/g,
     description: 'Australian Tax File Number (11 digits)',
     validate: (match) => {
       const digits = match.replace(/\D/g, '');
@@ -159,7 +159,7 @@ const PII_PATTERNS = [
     label: 'German Tax ID',
     severity: 'high',
     color: '#ef4444',
-    regex: /\b(\d{2}\s?\d{3}\s?\d{3}\s?\d{3}\s?\d{2}|\d{11})\b/g,
+    regex: /\b(\d{2}[\s\-]?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}[\s\-]?\d{2}|\d{11})\b/g,
     description: 'German Tax ID (Steuer-Identifikationsnummer)',
     validate: (match) => {
       const digits = match.replace(/\D/g, '');

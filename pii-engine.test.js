@@ -217,11 +217,15 @@ test('US SSN: without separators', () => {
 });
 
 test('US SSN rejects: Area code 000', () => {
-  assertDetected('000-12-3456', 'us_ssn');
+  assertNotDetected('000-12-3456', 'us_ssn');
 });
 
 test('US SSN rejects: Area code 666', () => {
-  assertDetected('666-12-3456', 'us_ssn');
+  assertNotDetected('666-12-3456', 'us_ssn');
+});
+
+test('US SSN rejects: Area code 900+', () => {
+  assertNotDetected('999-12-3456', 'us_ssn');
 });
 
 test('US Driver License: CA format', () => {
@@ -244,6 +248,10 @@ test('Australian TFN: no separators', () => {
   assertDetected('12345678901', 'au_tfn');
 });
 
+test('Australian TFN: with different separators', () => {
+  assertDetected('123-456-789-01', 'au_tfn');
+});
+
 test('Canadian SIN: standard format', () => {
   assertDetected('123-456-789', 'ca_sin');
 });
@@ -254,6 +262,10 @@ test('Canadian SIN: with spaces', () => {
 
 test('Canadian SIN: no separators', () => {
   assertDetected('123456789', 'ca_sin');
+});
+
+test('Canadian SIN rejects: First digit 0', () => {
+  assertNotDetected('023-456-789', 'ca_sin');
 });
 
 test('German Tax ID: standard format', () => {
