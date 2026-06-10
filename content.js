@@ -96,6 +96,9 @@ function attachListener(el) {
 }
 
 function handleInput(el) {
+  // Respect the enabled toggle — stop scanning if protection is disabled
+  if (!settings.enabled) { clearHighlights(el); notifyBg({ type: 'PII_CLEARED' }); return; }
+
   const text = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value : (el.innerText || '');
   if (!text || text.trim().length < 3) return;
 
