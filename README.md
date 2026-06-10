@@ -48,9 +48,12 @@
 ### Asia-Pacific & Other
 | Type | Severity | Example |
 |------|----------|---------|
-| Australian Tax File Number | 🔴 High | 123 456 789 |
+| Australian Tax File Number | 🔴 High | 123 456 789 01 |
 | German Tax ID | 🔴 High | 12 345 678 901 |
 | French SIRET/SIREN | 🟠 Medium | 123 456 789 12345 |
+| Indian Aadhar Number | 🔴 High | 1234 5678 9012 |
+| Indian PAN Card | 🔴 High | AAAPA5055K |
+| Indian Postal Code | 🟡 Low | 110001 |
 
 ### Global
 | Type | Severity | Example |

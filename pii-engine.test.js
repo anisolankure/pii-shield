@@ -288,6 +288,38 @@ test('French SIREN: standard format', () => {
   assertDetected('123 456 789', 'fr_siret');
 });
 
+test('Indian Aadhar: standard format', () => {
+  assertDetected('1234 5678 9012', 'in_aadhar');
+});
+
+test('Indian Aadhar: with dashes', () => {
+  assertDetected('1234-5678-9012', 'in_aadhar');
+});
+
+test('Indian Aadhar: no separators', () => {
+  assertDetected('123456789012', 'in_aadhar');
+});
+
+test('Indian PAN: standard format', () => {
+  assertDetected('AAAPA5055K', 'in_pan');
+});
+
+test('Indian PAN: lowercase (should not match)', () => {
+  assertNotDetected('aaapa5055k', 'in_pan');
+});
+
+test('Indian Postal Code: standard format', () => {
+  assertDetected('110001', 'in_postal_code');
+});
+
+test('Indian Postal Code rejects: All zeros', () => {
+  assertNotDetected('000000', 'in_postal_code');
+});
+
+test('Indian Postal Code: valid PIN', () => {
+  assertDetected('560034', 'in_postal_code');
+});
+
 // ─────────────────────────────────────────────────────────────────────
 // COMPREHENSIVE TEST
 // ─────────────────────────────────────────────────────────────────────

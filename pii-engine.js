@@ -173,6 +173,39 @@ const PII_PATTERNS = [
     color: '#f97316',
     regex: /\b([0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{5}|[0-9]{3}[\s\-]?[0-9]{3}[\s\-]?[0-9]{3})\b/g,
     description: 'French SIRET (business) or SIREN (company) number'
+  },
+  {
+    id: 'in_aadhar',
+    label: 'Indian Aadhar Number',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b(\d{4}[\s\-]?\d{4}[\s\-]?\d{4}|\d{12})\b/g,
+    description: 'Indian Aadhar Number (12 digits)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      return digits.length === 12;
+    }
+  },
+  {
+    id: 'in_pan',
+    label: 'Indian PAN Card',
+    severity: 'high',
+    color: '#ef4444',
+    regex: /\b([A-Z]{5}[0-9]{4}[A-Z]{1})\b/g,
+    description: 'Indian PAN Card (Permanent Account Number)'
+  },
+  {
+    id: 'in_postal_code',
+    label: 'Indian Postal Code',
+    severity: 'low',
+    color: '#eab308',
+    regex: /\b([0-9]{6})\b/g,
+    description: 'Indian PIN code (6 digits)',
+    validate: (match) => {
+      const digits = match.replace(/\D/g, '');
+      // PIN codes should be exactly 6 digits and not all zeros
+      return digits.length === 6 && digits !== '000000';
+    }
   }
 ];
 
