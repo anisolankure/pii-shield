@@ -201,6 +201,82 @@ test('Street Address: with Ave', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────
+// INTERNATIONAL PATTERNS (v1.0.6)
+// ─────────────────────────────────────────────────────────────────────
+
+test('US SSN: standard format', () => {
+  assertDetected('123-45-6789', 'us_ssn');
+});
+
+test('US SSN: with spaces', () => {
+  assertDetected('123 45 6789', 'us_ssn');
+});
+
+test('US SSN: without separators', () => {
+  assertDetected('123456789', 'us_ssn');
+});
+
+test('US SSN rejects: Area code 000', () => {
+  assertDetected('000-12-3456', 'us_ssn');
+});
+
+test('US SSN rejects: Area code 666', () => {
+  assertDetected('666-12-3456', 'us_ssn');
+});
+
+test('US Driver License: CA format', () => {
+  assertDetected('CA1234567', 'us_drivers_license');
+});
+
+test('US Driver License: NY format', () => {
+  assertDetected('NY123456', 'us_drivers_license');
+});
+
+test('Australian TFN: standard format', () => {
+  assertDetected('123 456 789', 'au_tfn');
+});
+
+test('Australian TFN: with dashes', () => {
+  assertDetected('123-456-789', 'au_tfn');
+});
+
+test('Australian TFN: no separators', () => {
+  assertDetected('12345678901', 'au_tfn');
+});
+
+test('Canadian SIN: standard format', () => {
+  assertDetected('123-456-789', 'ca_sin');
+});
+
+test('Canadian SIN: with spaces', () => {
+  assertDetected('123 456 789', 'ca_sin');
+});
+
+test('Canadian SIN: no separators', () => {
+  assertDetected('123456789', 'ca_sin');
+});
+
+test('German Tax ID: standard format', () => {
+  assertDetected('12 345 678 901', 'de_tax_id');
+});
+
+test('German Tax ID: without spaces', () => {
+  assertDetected('12345678901', 'de_tax_id');
+});
+
+test('French SIRET: standard format', () => {
+  assertDetected('123 456 789 12345', 'fr_siret');
+});
+
+test('French SIRET: with dashes', () => {
+  assertDetected('123-456-789-12345', 'fr_siret');
+});
+
+test('French SIREN: standard format', () => {
+  assertDetected('123 456 789', 'fr_siret');
+});
+
+// ─────────────────────────────────────────────────────────────────────
 // COMPREHENSIVE TEST
 // ─────────────────────────────────────────────────────────────────────
 

@@ -17,7 +17,7 @@ document.head.appendChild(script);
 
 ### Test Coverage
 
-**37 unit tests** covering:
+**55 unit tests** covering:
 
 #### Phone Numbers (17 tests)
 - ✅ US: `+1 (555) 123-4567`, `(555) 123-4567`, `555-123-4567`
@@ -31,8 +31,15 @@ document.head.appendChild(script);
 #### Generic (8 tests)
 - Emails, Credit Cards, Dates, Names, Addresses
 
+#### International (18 tests)
+- 🇺🇸 US: SSN (5 tests), Driver's License (2 tests)
+- 🇦🇺 AU: Tax File Number (3 tests)
+- 🇨🇦 CA: Social Insurance Number (3 tests)
+- 🇩🇪 DE: Tax ID (2 tests)
+- 🇫🇷 FR: SIRET/SIREN (3 tests)
+
 #### Comprehensive (1 test)
-- All 11 PII types detected in single text block
+- All 11+ PII types detected in single text block
 
 ---
 
