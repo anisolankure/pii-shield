@@ -219,6 +219,26 @@
     </div>
   </section>
 
+  <!-- Demo/Try It Section -->
+  <section id="demoSection" style="padding: 16px 24px 64px;">
+    <div class="container" style="max-width: 760px; margin: 0 auto;">
+      <h2 style="font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 12px; color: var(--text);">See It In Action</h2>
+      <p style="text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 40px;">Watch PII Shield catch sensitive details in a typical legal prompt — or type your own. This preview runs entirely in your browser.</p>
+
+      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 32px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 12px;"><span style="color: var(--accent);">▶</span> Live sample — or click in and type your own</div>
+
+        <textarea id="demoInput" placeholder="e.g. Draft a notice for my client, PAN ABCDE1234F, case no. CRL/452/2025…" style="width: 100%; height: 120px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; color: var(--text); font-family: monospace; font-size: 13px; resize: none; margin-bottom: 16px;" oninput="runDemoDetection()"></textarea>
+
+        <div id="demoOutput" style="background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; min-height: 60px; font-size: 13px; color: var(--muted);">
+          <div style="display: flex; align-items: center; justify-content: center; height: 60px; color: var(--muted);">👆 Type or paste text to see detections</div>
+        </div>
+      </div>
+
+      <p style="text-align: center; color: var(--muted); font-size: 13px;">This preview shows pattern detection only. The installed extension adds an on-device AI model that also catches names, organisations and locations.</p>
+    </div>
+  </section>
+
   <div class="trust-bar">
     <p><strong>🔒 Zero data collection.</strong> All scanning happens locally inside your browser tab. <strong style="color: var(--safe);">Nothing is ever sent to a server — your data never leaves your device.</strong></p>
   </div>
@@ -315,26 +335,6 @@
         Detects sensitive information across 7 countries. From US Social Security Numbers to Indian Aadhaar, Australian Tax File Numbers to German Tax IDs—PII Shield now catches critical PII in 9 different formats. International phone validation spanning 150+ countries with smarter algorithms that reduce false positives.
       </p>
       <p style="color: var(--muted); font-size: 13px;">🌍 9 international patterns • 66 unit tests • Zero data collection • 100% on-device</p>
-    </div>
-  </section>
-
-  <!-- Demo/Try It Section -->
-  <section id="demoSection" style="padding: 64px 24px;">
-    <div class="container" style="max-width: 760px; margin: 0 auto;">
-      <h2 style="font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 12px; color: var(--text);">See It In Action</h2>
-      <p style="text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 40px;">Watch PII Shield catch sensitive details in a typical legal prompt — or type your own. This preview runs entirely in your browser.</p>
-
-      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 32px;">
-        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 12px;"><span style="color: var(--accent);">▶</span> Live sample — or click in and type your own</div>
-
-        <textarea id="demoInput" placeholder="e.g. Draft a notice for my client, PAN ABCDE1234F, case no. CRL/452/2025…" style="width: 100%; height: 120px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; color: var(--text); font-family: monospace; font-size: 13px; resize: none; margin-bottom: 16px;" oninput="runDemoDetection()"></textarea>
-
-        <div id="demoOutput" style="background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; min-height: 60px; font-size: 13px; color: var(--muted);">
-          <div style="display: flex; align-items: center; justify-content: center; height: 60px; color: var(--muted);">👆 Type or paste text to see detections</div>
-        </div>
-      </div>
-
-      <p style="text-align: center; color: var(--muted); font-size: 13px;">This preview shows pattern detection only. The installed extension adds an on-device AI model that also catches names, organisations and locations.</p>
     </div>
   </section>
 
