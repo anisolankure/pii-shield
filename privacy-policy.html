@@ -11,13 +11,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #0f0f17;
-      --bg2:      #1a1a2e;
-      --border:   rgba(255,255,255,0.08);
-      --text:     #e2e8f0;
-      --muted:    #94a3b8;
-      --accent:   #6366f1;
-      --safe:     #22c55e;
+      --bg:       #ffffff;
+      --bg2:      #f8f9fa;
+      --border:   rgba(0,0,0,0.08);
+      --text:     #1f2937;
+      --muted:    #6b7280;
+      --accent:   #4f46e5;
+      --safe:     #059669;
     }
 
     body {
@@ -29,9 +29,9 @@
     }
 
     header {
-      background: var(--bg2);
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
+      padding: 16px 40px;
     }
 
     .container {
@@ -96,8 +96,8 @@
     ul li { margin-bottom: 6px; }
 
     .highlight-box {
-      background: rgba(34, 197, 94, 0.08);
-      border: 1px solid rgba(34, 197, 94, 0.25);
+      background: rgba(5, 150, 105, 0.08);
+      border: 1px solid rgba(5, 150, 105, 0.25);
       border-radius: 10px;
       padding: 20px 24px;
       margin: 32px 0;
@@ -118,25 +118,27 @@
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 24px 0;
-      text-align: center;
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-size: 13px;
       color: var(--muted);
+      flex-wrap: wrap;
+      gap: 12px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <div class="logo">
-        <div class="logo-icon">🛡️</div>
-        <div>
-          <div class="logo-name">PII Shield</div>
-          <div class="logo-sub">AI Privacy Guard</div>
-        </div>
+  <header style="border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;">
+    <a class="logo" href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+      <div class="logo-icon">🛡️</div>
+      <div>
+        <div class="logo-name" style="font-size: 16px; font-weight: 700; color: var(--text);">PII Shield</div>
       </div>
-    </div>
+    </a>
+    <a href="/" style="color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s;">← Back to Home</a>
   </header>
 
   <main>
@@ -150,7 +152,7 @@
       </div>
 
       <h2>1. Who We Are</h2>
-      <p>PII Shield is a Chrome browser extension developed and maintained by an individual developer. If you have questions about this policy, contact us at: <a href="mailto:anisolankure001@gmail.com">anisolankure001@gmail.com</a></p>
+      <p>PII Shield is a Chrome browser extension developed and maintained by an individual developer. If you have questions about this policy, contact us at: <a href="mailto:hello@monfire.co.uk">hello@monfire.co.uk</a></p>
 
       <h2>2. What Data We Process</h2>
       <p>PII Shield analyses text you type into supported AI chat websites in order to detect personally identifiable information (PII). This includes:</p>
@@ -196,15 +198,18 @@
 
       <h2>10. Contact</h2>
       <p>For any privacy-related questions or requests:<br>
-      📧 <a href="mailto:anisolankure001@gmail.com">anisolankure001@gmail.com</a></p>
+      📧 <a href="mailto:hello@monfire.co.uk">hello@monfire.co.uk</a></p>
 
     </div>
   </main>
 
   <footer>
-    <div class="container">
-      © 2026 PII Shield. All rights reserved.
-    </div>
+    <span>© 2026 PII Shield. All rights reserved.</span>
+    <span>
+      <a href="privacy-policy.html" style="color: var(--accent); text-decoration: none;">Privacy Policy</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:hello@monfire.co.uk" style="color: var(--accent); text-decoration: none;">Contact</a>
+    </span>
   </footer>
 
 </body>
