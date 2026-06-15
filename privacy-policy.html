@@ -3,214 +3,676 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — PII Shield</title>
-  <meta name="description" content="Privacy policy for PII Shield Chrome extension. Learn how we handle your data.">
+  <title>PII Shield: stop oversharing with robots</title>
+  <meta name="description" content="PII Shield catches the personal info you accidentally paste into ChatGPT, Claude and friends. All on your device. We never see a thing.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #ffffff;
-      --bg2:      #f8f9fa;
-      --border:   rgba(0,0,0,0.08);
-      --text:     #1f2937;
-      --muted:    #6b7280;
-      --accent:   #4f46e5;
-      --safe:     #059669;
+      --ink:     #0d0d12;
+      --ink2:    #2a2a35;
+      --paper:   #fdfcf7;
+      --paper2:  #f4f1e8;
+      --cobalt:  #2b4cff;
+      --cobalt-d:#1f39cc;
+      --acid:    #e6ff3a;
+      --pink:    #ff5da2;
+      --line:    #0d0d12;
+      --muted:   #6a6a72;
+      --safe:    #15a05a;
+      --display: 'Space Grotesk', system-ui, sans-serif;
+      --body:    'Inter', system-ui, sans-serif;
+      --maxw:    1080px;
     }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 16px;
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+    body { font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 0.98; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(44px, 9vw, 104px); }
+    h2 { font-size: clamp(34px, 6vw, 64px); }
+    h3 { font-size: 22px; letter-spacing: -0.01em; }
+
+    .eyebrow { font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+    .eyebrow::before { content: ""; width: 18px; height: 3px; background: var(--cobalt); display: inline-block; }
+
+    a { color: inherit; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 60; background: var(--paper); border-bottom: 3px solid var(--ink); }
+    .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 19px; }
+    .nav-logo .badge { width: 30px; height: 30px; background: var(--ink); color: var(--acid); border-radius: 8px; display: grid; place-items: center; }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-link { text-decoration: none; font-weight: 500; font-size: 15px; }
+    .nav-link:hover { color: var(--cobalt); }
+    .nav-cta { font-family: var(--display); font-weight: 600; font-size: 14px; text-decoration: none; background: var(--ink); color: var(--acid); padding: 9px 18px; border-radius: 999px; border: 2px solid var(--ink); transition: transform .12s, box-shadow .12s; }
+    .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--cobalt); }
+
+    /* BUTTONS */
+    .btn { font-family: var(--display); font-weight: 600; font-size: 17px; text-decoration: none; display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 999px; border: 2.5px solid var(--ink); transition: transform .12s, box-shadow .12s; }
+    .btn-primary { background: var(--cobalt); color: #fff; }
+    .btn-primary:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
+    .btn-ghost { background: var(--acid); color: var(--ink); }
+    .btn-ghost:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
+
+    /* HERO */
+    .hero { padding: 70px 0 80px; position: relative; overflow: hidden; }
+    .hero .wrap { position: relative; }
+    .hero-tag { display: inline-block; font-family: var(--display); font-weight: 600; font-size: 14px; background: var(--acid); border: 2px solid var(--ink); padding: 5px 14px; border-radius: 999px; transform: rotate(-2deg); margin-bottom: 28px; }
+    .hero h1 { max-width: 14ch; margin-bottom: 26px; }
+    .hero h1 .redact { position: relative; white-space: nowrap; }
+    .hero h1 .redact::after {
+      content: ""; position: absolute; inset: 6% -4px 14% -4px; background: var(--ink);
+      border-radius: 3px; transform: scaleX(0); transform-origin: left;
+      animation: redact-loop 3.2s cubic-bezier(.7,0,.3,1) 0.6s infinite;
+    }
+    @keyframes redact-loop {
+      0%   { transform: scaleX(0); transform-origin: left; }
+      18%  { transform: scaleX(1); transform-origin: left; }   /* wipe ON */
+      62%  { transform: scaleX(1); transform-origin: right; }  /* hold, flip origin */
+      80%  { transform: scaleX(0); transform-origin: right; }  /* wipe OFF the other way */
+      100% { transform: scaleX(0); transform-origin: right; }  /* pause before repeat */
     }
 
-    header {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 40px;
+    .hero-sub { font-size: clamp(18px, 2.4vw, 22px); max-width: 50ch; color: var(--ink2); margin-bottom: 38px; line-height: 1.5; }
+    .hero-sub strong { background: linear-gradient(transparent 60%, var(--acid) 60%); font-weight: 600; }
+    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .cta-note { font-size: 14px; color: var(--muted); }
+    .cta-note b { color: var(--ink); }
+
+    .sticker { position: absolute; top: 30px; right: 0; width: 150px; height: 150px; background: var(--pink); color: #fff; border: 3px solid var(--ink); border-radius: 50%; display: grid; place-items: center; text-align: center; transform: rotate(12deg); font-family: var(--display); font-weight: 700; font-size: 15px; line-height: 1.1; padding: 16px; animation: bob 3s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: rotate(12deg) translateY(-8px); } }
+    @media (max-width: 880px) { .sticker { display: none; } }
+
+    .marquee { background: var(--ink); color: var(--paper); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); overflow: hidden; white-space: nowrap; padding: 12px 0; }
+    .marquee-track { display: inline-flex; gap: 40px; animation: scroll 22s linear infinite; font-family: var(--display); font-weight: 600; font-size: 16px; }
+    .marquee-track span { display: inline-flex; align-items: center; gap: 40px; }
+    .marquee-track span::after { content: "★"; color: var(--acid); }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    /* SECTION FRAME */
+    section.block { padding: 90px 0; }
+    section.block.dark { background: var(--ink); color: var(--paper); }
+    section.block.tint { background: var(--paper2); }
+    .section-head { max-width: 760px; margin: 0 auto 60px; text-align: center; }
+    .section-head .eyebrow { margin-bottom: 18px; }
+    .section-head h2 { margin-bottom: 16px; }
+    .section-head p { font-size: 18px; color: var(--ink2); }
+    .dark .section-head p { color: #b9b9c4; }
+    .dark .eyebrow::before { background: var(--acid); }
+
+    /* DEMO */
+    .demo-card { max-width: 760px; margin: 0 auto; background: var(--paper); border: 3px solid var(--ink); border-radius: 18px; overflow: hidden; box-shadow: 10px 10px 0 var(--cobalt); }
+    .demo-head { display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-bottom: 3px solid var(--ink); background: var(--acid); }
+    .traffic { display: flex; gap: 7px; }
+    .traffic i { width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--ink); display: block; }
+    .traffic i:nth-child(1){ background:#ff5f57;} .traffic i:nth-child(2){ background:#febc2e;} .traffic i:nth-child(3){ background:#28c840;}
+    .demo-head span { font-family: var(--display); font-weight: 600; font-size: 13px; margin-left: 6px; }
+    .demo-body { padding: 22px; }
+    #demoInput { width: 100%; height: 116px; background: var(--paper2); border: 2.5px solid var(--ink); border-radius: 12px; padding: 14px; color: var(--ink); resize: none; margin-bottom: 16px; font-family: ui-monospace, 'Cascadia Code', Menlo, monospace; font-size: 13.5px; line-height: 1.6; }
+    #demoInput:focus { outline: none; box-shadow: 4px 4px 0 var(--cobalt); }
+    #demoOutput { background: var(--paper2); border: 2.5px solid var(--ink); border-radius: 12px; padding: 14px; font-size: 13.5px; height: 200px; overflow-y: auto; }
+    .demo-empty { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted); gap: 8px; font-weight: 500; }
+    .demo-note { text-align: center; color: var(--muted); font-size: 14px; margin-top: 22px; }
+    .det-head { font-family: var(--display); font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--cobalt-d); }
+    .det-row { padding: 9px 0; border-bottom: 2px dotted #d6d2c4; display: flex; gap: 10px; align-items: baseline; }
+    .det-row:last-child { border-bottom: none; }
+    .det-type { font-family: var(--display); font-weight: 600; color: var(--safe); min-width: 96px; }
+    .det-row code { background: var(--ink); color: var(--acid); padding: 2px 8px; border-radius: 5px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; }
+
+    /* TRUST */
+    .trust { background: var(--acid); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); padding: 26px 0; text-align: center; }
+    .trust p { font-family: var(--display); font-weight: 600; font-size: clamp(17px,2.6vw,24px); max-width: 800px; margin: 0 auto; }
+
+    /* FEATURE GRID */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0; border: 3px solid var(--ink); border-radius: 18px; overflow: hidden; }
+    .card { padding: 34px 28px; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); background: var(--paper); transition: background .15s; }
+    .card:hover { background: var(--acid); }
+    .card .ic { width: 48px; height: 48px; border-radius: 12px; border: 2.5px solid var(--ink); display: grid; place-items: center; margin-bottom: 18px; background: var(--cobalt); color: #fff; }
+    .card:hover .ic { background: var(--ink); color: var(--acid); }
+    .card h3 { margin-bottom: 9px; }
+    .card p { font-size: 15px; color: var(--ink2); line-height: 1.55; }
+
+    /* METRICS (dark) */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .metric { border: 2.5px solid var(--paper); border-radius: 16px; padding: 30px 22px; text-align: center; }
+    .metric:nth-child(odd) { background: var(--cobalt); border-color: var(--cobalt); }
+    .metric-num { font-family: var(--display); font-size: 46px; font-weight: 700; line-height: 1; margin-bottom: 10px; }
+    .metric:nth-child(even) .metric-num { color: var(--acid); }
+    .metric-label { font-size: 13.5px; color: #c7c7d2; line-height: 1.45; }
+    .metric:nth-child(odd) .metric-label { color: #d6ddff; }
+    .metric-num span { font-size: 24px; }
+
+    /* CHIPS */
+    .statline { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 50px; }
+    .chip { font-family: var(--display); font-weight: 600; font-size: 15px; border: 2.5px solid var(--ink); border-radius: 999px; padding: 9px 18px; background: var(--paper); }
+    .chip b { color: var(--cobalt); }
+
+    /* UPDATE */
+    .update { text-align: center; }
+    .update .wrap { max-width: 760px; }
+    .update h2 { margin-bottom: 18px; }
+    .update p.body { font-size: 17px; color: var(--ink2); line-height: 1.6; margin-bottom: 18px; }
+    .update .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+    /* TESTIMONIAL */
+    .quote-card { max-width: 680px; margin: 0 auto; background: var(--paper); border: 3px solid var(--ink); border-radius: 18px; padding: 40px 38px; box-shadow: 10px 10px 0 var(--acid); }
+    .stars { color: var(--cobalt); font-size: 18px; letter-spacing: 3px; margin-bottom: 18px; }
+    .quote-card blockquote { font-family: var(--display); font-size: 22px; font-weight: 500; line-height: 1.4; margin-bottom: 24px; letter-spacing: -0.01em; }
+    .quote-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .quote-foot .who { font-weight: 600; font-size: 14px; }
+    .quote-foot .who span { font-weight: 400; color: var(--muted); }
+    .quote-foot a { font-family: var(--display); font-weight: 600; font-size: 13px; color: var(--cobalt); text-decoration: none; }
+    .quote-foot a:hover { text-decoration: underline; }
+
+    /* NARROW FEATURE BLOCKS */
+    .feature-narrow { max-width: 780px; margin: 0 auto; text-align: center; }
+    .pill { display: inline-block; font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--pink); color: #fff; border: 2px solid var(--ink); padding: 5px 15px; border-radius: 999px; transform: rotate(-1.5deg); margin-bottom: 22px; }
+    .feature-narrow h2 { margin-bottom: 20px; }
+    .feature-narrow .lead { font-size: 18px; color: var(--ink2); margin: 0 auto 38px; line-height: 1.55; }
+    .feature-narrow .lead strong { background: linear-gradient(transparent 60%, var(--acid) 60%); font-weight: 600; }
+    .dark .feature-narrow .lead { color: #c7c7d2; }
+    .dark .feature-narrow .lead strong { background: var(--cobalt); color: #fff; padding: 1px 7px; border-radius: 5px; }
+    .mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 36px; }
+    .mini { padding: 28px 22px; border: 2.5px solid var(--ink); border-radius: 16px; background: var(--paper); text-align: left; }
+    .dark .mini { background: var(--ink2); border-color: var(--paper); }
+    .mini .ic { width: 42px; height: 42px; border-radius: 11px; border: 2px solid var(--ink); background: var(--acid); color: var(--ink); display: grid; place-items: center; margin-bottom: 14px; }
+    .dark .mini .ic { border-color: var(--paper); }
+    .mini h3 { font-size: 17px; margin-bottom: 7px; }
+    .mini p { font-size: 14px; color: var(--ink2); line-height: 1.5; }
+    .dark .mini p { color: #c7c7d2; }
+    .footnote { font-size: 15px; color: var(--muted); }
+    .dark .footnote { color: #9a9aa6; }
+
+    /* ROADMAP */
+    .road-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .road { border: 3px solid var(--ink); border-radius: 18px; padding: 28px 26px; background: var(--paper); display: flex; flex-direction: column; }
+    .road.now { background: var(--cobalt); color: #fff; box-shadow: 8px 8px 0 var(--ink); }
+    .road-ver { font-family: var(--display); font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .road-tag { font-size: 13.5px; color: var(--muted); margin-bottom: 18px; font-weight: 500; }
+    .road.now .road-tag { color: #d6ddff; }
+    .road ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .road li { font-size: 14px; color: var(--ink2); display: flex; gap: 9px; align-items: flex-start; line-height: 1.4; }
+    .road.now li { color: #eef1ff; }
+    .road li svg { flex-shrink: 0; margin-top: 2px; }
+    .road .status { margin-top: auto; padding-top: 18px; font-family: var(--display); font-weight: 600; font-size: 13px; }
+    .road.now .status { color: var(--acid); }
+    .road .status.soon { color: var(--cobalt); }
+    .road-foot { text-align: center; color: var(--muted); font-size: 15px; margin-top: 34px; }
+    .road-foot a { color: var(--cobalt); font-weight: 600; text-decoration: none; }
+    .road-foot a:hover { text-decoration: underline; }
+
+    /* FINAL CTA */
+    .final { background: var(--cobalt); color: #fff; border-top: 3px solid var(--ink); text-align: center; padding: 100px 0; }
+    .final h2 { font-size: clamp(40px, 7vw, 80px); margin-bottom: 22px; }
+    .final p { font-size: 19px; max-width: 46ch; margin: 0 auto 38px; color: #e2e7ff; }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: var(--paper); padding: 40px 0; }
+    .foot-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 14px; }
+    .foot-inner .foot-logo { font-family: var(--display); font-weight: 700; font-size: 17px; color: var(--acid); }
+    .foot-links { display: flex; gap: 24px; }
+    .foot-links a { color: #b9b9c4; text-decoration: none; }
+    .foot-links a:hover { color: var(--acid); }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      .nav-link { display: none; }
+      section.block { padding: 64px 0; }
+      .grid { grid-template-columns: 1fr; }
+      .card { border-right: none; }
     }
 
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .logo-icon { font-size: 28px; }
-
-    .logo-name {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .logo-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    main {
-      padding: 56px 0 80px;
-    }
-
-    h1 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    .last-updated {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 48px;
-    }
-
-    h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 40px 0 12px;
-      color: var(--text);
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    p { margin-bottom: 16px; color: var(--muted); }
-
-    ul {
-      margin: 0 0 16px 20px;
-      color: var(--muted);
-    }
-
-    ul li { margin-bottom: 6px; }
-
-    .highlight-box {
-      background: rgba(5, 150, 105, 0.08);
-      border: 1px solid rgba(5, 150, 105, 0.25);
-      border-radius: 10px;
-      padding: 20px 24px;
-      margin: 32px 0;
-    }
-
-    .highlight-box p {
-      color: var(--safe);
-      font-weight: 500;
-      margin: 0;
-      font-size: 15px;
-    }
-
-    .highlight-box p::before {
-      content: "🔒 ";
-    }
-
-    a { color: var(--accent); }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--muted);
-      flex-wrap: wrap;
-      gap: 12px;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .hero h1 .redact::after { transform: scaleX(1); }
     }
   </style>
 </head>
 <body>
 
-  <header style="border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;">
-    <a class="logo" href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-      <div class="logo-icon">🛡️</div>
-      <div>
-        <div class="logo-name" style="font-size: 16px; font-weight: 700; color: var(--text);">PII Shield</div>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        <span class="badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 4.5 3.2 8.3 8 9.5 4.8-1.2 8-5 8-9.5V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        PII Shield
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#features">What it does</a>
+        <a class="nav-link" href="#demo">Try it</a>
+        <a class="nav-link" href="privacy-policy.html">Privacy</a>
+        <a class="nav-cta" href="https://chrome.google.com/webstore/detail/lminoedimombmbpojgnefeogjfojmkpl" target="_blank" rel="noopener">Get it free</a>
       </div>
-    </a>
-    <a href="/" style="color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s;">← Back to Home</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="sticker">100%<br>on your<br>device</div>
+      <span class="hero-tag">No cloud. No tracking. No nonsense.</span>
+      <h1>You overshare with robots. We <span class="redact">catch it</span> first.</h1>
+      <p class="hero-sub">Pasting your <strong>email, phone number or bank details</strong> into ChatGPT or Claude? PII Shield spots it as you type and taps you on the shoulder before you hit send. Right inside your browser.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://chrome.google.com/webstore/detail/lminoedimombmbpojgnefeogjfojmkpl" target="_blank" rel="noopener">Add to Chrome, it's free →</a>
+        <a class="btn btn-ghost" href="#demo">Show me a demo</a>
+      </div>
+      <p class="cta-note" style="margin-top:18px;"><b>Free forever.</b> No signup. No catch. We literally can't see your data.</p>
+
+      <div class="statline">
+        <span class="chip"><b>9</b> country patterns</span>
+        <span class="chip"><b>150+</b> countries</span>
+        <span class="chip"><b>66</b> tests passing</span>
+        <span class="chip"><b>0</b> bytes sent to us</span>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <div class="container">
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>WORKS WITH CHATGPT</span><span>CLAUDE</span><span>GEMINI</span><span>COPILOT</span><span>GROK</span>
+      <span>WORKS WITH CHATGPT</span><span>CLAUDE</span><span>GEMINI</span><span>COPILOT</span><span>GROK</span>
+    </div>
+  </div>
 
-      <h1>Privacy Policy</h1>
-      <p class="last-updated">Last updated: June 2026 &nbsp;·&nbsp; Applies to: PII Shield Chrome Extension</p>
-
-      <div class="highlight-box">
-        <p>PII Shield processes all data entirely on your device. No personal information, no detected PII, and no usage data is ever sent to any server or third party.</p>
+  <!-- DEMO -->
+  <section class="block tint" id="demo">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Try before you trust</span>
+        <h2>Watch it work</h2>
+        <p>Here's a typical lawyer's prompt, full of stuff you shouldn't be feeding a chatbot. Type your own and watch it get flagged. This whole thing runs in your browser, nothing leaves this page.</p>
       </div>
 
-      <h2>1. Who We Are</h2>
-      <p>PII Shield is a Chrome browser extension developed and maintained by an individual developer. If you have questions about this policy, contact us at: <a href="mailto:hello@monfire.co.uk">hello@monfire.co.uk</a></p>
-
-      <h2>2. What Data We Process</h2>
-      <p>PII Shield analyses text you type into supported AI chat websites in order to detect personally identifiable information (PII). This includes:</p>
-      <ul>
-        <li>Text entered into AI chat interfaces while using a supported AI tool</li>
-        <li>Patterns that may indicate PII such as email addresses, phone numbers, or National Insurance numbers</li>
-      </ul>
-      <p><strong>This analysis happens entirely within your browser using JavaScript. The text is never transmitted anywhere.</strong></p>
-
-      <h2>3. Data We Do Not Collect</h2>
-      <p>We do not collect, store, transmit, or share:</p>
-      <ul>
-        <li>Any text you type or paste into websites</li>
-        <li>Any detected PII or scan results</li>
-        <li>Your browsing history or visited URLs</li>
-        <li>Personal information of any kind</li>
-        <li>Analytics or usage statistics (unless you explicitly opt in — not currently implemented)</li>
-      </ul>
-
-      <h2>4. Permissions Used</h2>
-      <p>PII Shield requests the following Chrome permissions, and only uses them for the stated purposes:</p>
-      <ul>
-        <li><strong>storage</strong> — saves your settings (on/off, which features are enabled) locally in Chrome's sync storage. No PII is stored.</li>
-        <li><strong>sidePanel</strong> — displays the PII warnings panel on the right side of your browser.</li>
-        <li><strong>activeTab / scripting</strong> — injects the detection script into the current tab so it can monitor text input. Only runs on the supported AI sites listed in the extension.</li>
-      </ul>
-      <p>The extension only activates on a specific list of supported AI chat websites. It does not run on any other websites.</p>
-
-      <h2>5. Data Storage</h2>
-      <p>The only data stored by this extension is your <strong>preferences</strong> (e.g. whether detection is enabled, whether highlights are shown). This is stored using Chrome's built-in <code>chrome.storage.sync</code> API, which may sync across your Chrome devices if you are signed in to Chrome. It contains no PII.</p>
-
-      <h2>6. Third Parties</h2>
-      <p>PII Shield does not use any third-party analytics, advertising, tracking, or data collection services. No data is shared with third parties.</p>
-
-      <h2>7. Children's Privacy</h2>
-      <p>This extension is not directed at children under the age of 13. We do not knowingly collect any data from children.</p>
-
-      <h2>8. Your Rights (UK GDPR)</h2>
-      <p>Because we do not collect personal data, there is no data held about you to access, correct, or delete. If you have any concerns, please contact us and we will respond within 30 days.</p>
-
-      <h2>9. Changes to This Policy</h2>
-      <p>We may update this policy if the extension's functionality changes. The "last updated" date at the top of this page will reflect any changes. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
-
-      <h2>10. Contact</h2>
-      <p>For any privacy-related questions or requests:<br>
-      📧 <a href="mailto:hello@monfire.co.uk">hello@monfire.co.uk</a></p>
-
+      <div class="demo-card" id="demoSection">
+        <div class="demo-head">
+          <div class="traffic"><i></i><i></i><i></i></div>
+          <span>Go on, paste something risky</span>
+        </div>
+        <div class="demo-body">
+          <textarea id="demoInput" placeholder="e.g. Draft a notice for my client, PAN ABCDE1234F, case no. CRL/452/2025…" oninput="runDemoDetection()"></textarea>
+          <div id="demoOutput">
+            <div class="demo-empty">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+              Start typing and watch the magic
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="demo-note">This little preview only does pattern matching. The real extension also packs an on-device AI brain that catches names, companies and places.</p>
     </div>
-  </main>
+  </section>
+
+  <!-- TRUST -->
+  <div class="trust">
+    <div class="wrap">
+      <p>Your data never leaves your laptop. We can't sell it, leak it, or peek at it. There's nothing to peek at.</p>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The good stuff</span>
+        <h2>Small extension, big paranoia</h2>
+        <p>Everything you need to stop accidentally handing your life over to a chatbot.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
+          <h3>Catches it mid-type</h3>
+          <p>Flags risky stuff in under 300ms, basically the moment you type it. Patterns handle the obvious bits, a local AI handles names, companies and places.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.99.14 3 3 0 0 0-1.5 5.21A3 3 0 0 0 6 16.5 3 3 0 0 0 12 19m0-14a3 3 0 1 1 5.99.14 3 3 0 0 1 1.5 5.21A3 3 0 0 1 18 16.5 3 3 0 0 1 12 19m0-14v14"/></svg></div>
+          <h3>A tiny AI lives here</h3>
+          <p>A 28MB brain runs right inside your browser. No GPU, no internet, no servers. It works on a plane with the wifi off.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+          <h3>Knows your secrets</h3>
+          <p>Emails, phone numbers, NI and NHS numbers, card details, bank info, postcodes, birthdays. If it's sensitive, it's on the list.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 4.5 3.2 8.3 8 9.5 4.8-1.2 8-5 8-9.5V5l-8-3Z"/></svg></div>
+          <h3>Tells you how bad it is</h3>
+          <p>Every catch gets a high, medium or low rating, so you know what's a real problem and what's no big deal. Copy the full report in one click.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+          <h3>Not a creep</h3>
+          <p>It only wakes up on the AI sites you pick. It doesn't snoop around the rest of your browsing or hoard your data. Promise.</p>
+        </div>
+        <div class="card">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></div>
+          <h3>Speaks UK and worldwide</h3>
+          <p>Reads phone numbers from all over (+1, +44, +33 and friends) plus proper UK stuff: National Insurance, NHS numbers, sort codes, postcodes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS (dark) -->
+  <section class="block dark">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Fast. Like, really fast.</span>
+        <h2>It won't slow you down</h2>
+        <p>Quick enough that you'll forget it's running, until the second it saves you.</p>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-num">50<span>ms</span></div><div class="metric-label">Catch time. Faster than you can blink.</div></div>
+        <div class="metric"><div class="metric-num">2,500</div><div class="metric-label">Tokens chewed through every second</div></div>
+        <div class="metric"><div class="metric-num">28<span>MB</span></div><div class="metric-label">Tiny AI model, smaller than a photo</div></div>
+        <div class="metric"><div class="metric-num">0<span>%</span></div><div class="metric-label">Of your data ever sent anywhere</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPDATE banner -->
+  <section class="block tint update">
+    <div class="wrap">
+      <span class="eyebrow" style="margin-bottom:16px;">Hot off the press · v1.0.6</span>
+      <h2>Now it speaks 7 countries</h2>
+      <p class="body">From US Social Security Numbers to Indian Aadhaar, Aussie Tax File Numbers to German Tax IDs, PII Shield now catches sensitive info in 9 different formats. Phone checks cover 150+ countries, and we taught it to stop crying wolf over things that aren't actually private.</p>
+      <div class="chips">
+        <span class="chip">9 country patterns</span>
+        <span class="chip">66 tests passing</span>
+        <span class="chip">0 data collected</span>
+        <span class="chip">100% on your device</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Don't take our word</span>
+        <h2>Real humans, real reviews</h2>
+        <p>Every one is checkable on the Chrome Web Store. We're not making these up.</p>
+      </div>
+      <div class="quote-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"It actually works. Whenever I typed my email, phone number or bank info into AI tools, it instantly warned me and highlighted the sensitive bits. Super useful if you're in AI chats all day."</blockquote>
+        <div class="quote-foot">
+          <span class="who">Harshvardhan Solankure <span>· May 2026</span></span>
+          <a href="https://chromewebstore.google.com/detail/lminoedimombmbpojgnefeogjfojmkpl/reviews" target="_blank" rel="noopener">See it on the store ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DUAL LANGUAGE (dark) -->
+  <section class="block dark">
+    <div class="wrap feature-narrow">
+      <span class="pill">Coming soon</span>
+      <h2>Robot replying in gibberish?</h2>
+      <p class="lead">Meet <strong>Dual Language</strong>. When Claude answers you in Hindi, Spanish, French or any of 100+ languages, we catch it and flip it into your language as it lands. No setup, no waiting, all on your device.</p>
+      <div class="mini-grid">
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6m-7 0 6-6 2-3M2 5h12M7 2h1m14 20-5-10-5 10m2-4h6"/></svg></div>
+          <h3>Spots it instantly</h3>
+          <p>Recognises any language the second it shows up</p>
+        </div>
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
+          <h3>Zero lag</h3>
+          <p>Under 100ms, and not a single API call</p>
+        </div>
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5 3 21l4.5-1.5M21 3l-9 9m9-9-7 18-4-7-7-4 18-7Z"/></svg></div>
+          <h3>Saves you money</h3>
+          <p>Trims 20 to 30% off your API token bill</p>
+        </div>
+      </div>
+      <p class="footnote">Why bother? When you ask in English but the bot replies in French, you're paying tokens for a translation you have to do yourself. We flip that. Translation happens on your side, so you only pay for your actual question.</p>
+    </div>
+  </section>
+
+  <!-- LEGAL -->
+  <section class="block tint">
+    <div class="wrap feature-narrow">
+      <span class="pill">Landing in a few weeks</span>
+      <h2>Lawyers, this one's for you</h2>
+      <p class="lead">Drafting contracts or client letters in ChatGPT? One careless paste, a case number, an Aadhaar ID, a client's address, and you've just blown confidentiality. Not great for the professional ethics.</p>
+      <p class="lead" style="margin-bottom:36px;">So we're building protections made for Indian legal work:</p>
+      <div class="mini-grid">
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7l-4 6a4 4 0 0 0 8 0L7 7Zm10 0-4 6a4 4 0 0 0 8 0l-4-6ZM5 21h14"/></svg></div>
+          <h3>Legal-grade detection</h3>
+          <p>Aadhaar, PAN, Bar Council numbers, case IDs, judgement refs, client names</p>
+        </div>
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></div>
+          <h3>Your language too</h3>
+          <p>Draft in Hindi, Marathi, Tamil, Telugu or Kannada and stay protected</p>
+        </div>
+        <div class="mini">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+          <h3>Fits how you work</h3>
+          <p>Built for the tools Indian firms use daily. Everything stays on your device</p>
+        </div>
+      </div>
+      <p class="footnote">Want early access? We're letting legal folks test it first.</p>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What's cooking</span>
+        <h2>The road ahead</h2>
+        <p>Plans might shuffle around depending on what you lot tell us.</p>
+      </div>
+      <div class="road-grid">
+
+        <div class="road now">
+          <div class="road-ver">v1.0.6 · Out now</div>
+          <div class="road-tag">Goes global</div>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> US: SSN and licence</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> Australia: Tax File Number</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> Canada: SIN</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> Germany: Tax ID</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> France: SIRET / SIREN</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acid)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> India: Aadhaar, PAN, postcode</li>
+          </ul>
+          <div class="status">Live and passing 66 tests</div>
+        </div>
+
+        <div class="road">
+          <div class="road-ver">v1.1.0</div>
+          <div class="road-tag">Nicer to use</div>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> One-tap redact button</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Session stats and history</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Filter by risk level</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Export reports (CSV / JSON)</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Settings for power users</li>
+          </ul>
+          <div class="status soon">About 4 to 6 weeks out</div>
+        </div>
+
+        <div class="road">
+          <div class="road-ver">v2.0.0</div>
+          <div class="road-tag">Smarter and GPU-powered</div>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--safe)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> Quantised ONNX models</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--safe)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> Spots your hardware automatically</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--safe)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg> WASM inference at 2,500 tok/sec</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> WebGPU ready, 2 to 4x faster</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Smarter context-aware detection</li>
+          </ul>
+          <div class="status">Verified and ready to test</div>
+        </div>
+
+        <div class="road">
+          <div class="road-ver">v2.1.0 · Dual Language</div>
+          <div class="road-tag">Translates on the fly</div>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Detects the reply's language</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Flips it to yours as it arrives</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Easy on your token budget</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> Handles 100+ languages</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cobalt)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg> All on your device, no delay</li>
+          </ul>
+          <div class="status soon">Coming soon</div>
+        </div>
+
+      </div>
+      <p class="road-foot">Follow along on <a href="https://github.com/anisolankure/pii-shield" target="_blank" rel="noopener">GitHub</a>.</p>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <div class="wrap">
+      <h2>Stop oversharing.<br>Start today.</h2>
+      <p>It's free, it's tiny, and it'll save you from that one paste you'd really regret.</p>
+      <a class="btn btn-ghost" href="https://chrome.google.com/webstore/detail/lminoedimombmbpojgnefeogjfojmkpl" target="_blank" rel="noopener">Add to Chrome, free →</a>
+    </div>
+  </section>
 
   <footer>
-    <span>© 2026 PII Shield. All rights reserved.</span>
-    <span>
-      <a href="privacy-policy.html" style="color: var(--accent); text-decoration: none;">Privacy Policy</a>
-      &nbsp;·&nbsp;
-      <a href="mailto:hello@monfire.co.uk" style="color: var(--accent); text-decoration: none;">Contact</a>
-    </span>
+    <div class="foot-inner">
+      <span class="foot-logo">🛡 PII Shield</span>
+      <span style="color:#9a9aa6;">© 2026 PII Shield. Built for the paranoid (and the rest of us).</span>
+      <span class="foot-links">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="mailto:hello@monfire.co.uk">Say hi</a>
+        <a href="https://github.com/anisolankure/pii-shield" target="_blank" rel="noopener">GitHub</a>
+      </span>
+    </div>
   </footer>
+
+  <script>
+    const patterns = [
+      { name: 'PAN',          regex: /\b[A-Z]{5}\d{4}[A-Z]\b/g },
+      { name: 'Aadhaar',      regex: /\b\d{4}\s?\d{4}\s?\d{4}\b/g },
+      { name: 'Case Number',  regex: /\b[A-Z]{2,4}[\/\-]\d{1,6}[\/\-]\d{4}\b/g },
+      { name: 'Email',        regex: /([a-z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,})/gi },
+      { name: 'Phone',        regex: /(\+91[\s-]?\d{5}[\s-]?\d{5}|\+?1?\s*\(?[0-9]{3}\)?[\s.-]?[0-9]{3}[\s.-]?[0-9]{4})/g },
+      { name: 'Credit Card',  regex: /(\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b)/g },
+      { name: 'SSN',          regex: /(\d{3}-\d{2}-\d{4})/g },
+      { name: 'UK Postcode',  regex: /\b([A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2})\b/gi },
+    ];
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    function runDemoDetection() {
+      const input = document.getElementById('demoInput').value;
+      const output = document.getElementById('demoOutput');
+
+      if (!input.trim()) {
+        output.innerHTML = '<div class="demo-empty"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg> Start typing and watch the magic</div>';
+        return;
+      }
+
+      const claimed = [];
+      const found = [];
+      const overlaps = (s, e) => claimed.some(r => s < r.e && e > r.s);
+
+      patterns.forEach(p => {
+        for (const m of input.matchAll(p.regex)) {
+          const s = m.index, e = m.index + m[0].length;
+          if (overlaps(s, e)) continue;
+          claimed.push({ s, e });
+          found.push({ type: p.name, match: m[0], index: s });
+        }
+      });
+
+      found.sort((a, b) => a.index - b.index);
+
+      if (found.length > 0) {
+        let html = `<div class="det-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg> Caught ${found.length} thing${found.length > 1 ? 's' : ''} before you hit send</div>`;
+        found.forEach(f => {
+          html += `<div class="det-row"><span class="det-type">${f.type}</span><code>${escapeHtml(f.match)}</code></div>`;
+        });
+        output.innerHTML = html;
+      } else {
+        output.innerHTML = '<div style="padding:6px;font-weight:500;"><span style="color:var(--safe);font-weight:700;">✓ All clear.</span> Nothing risky in there.</div>';
+      }
+    }
+
+    const DEMO_SAMPLE = "Please draft a legal notice for my client Rajesh Kumar (PAN ABCDE1234F, Aadhaar 1234 5678 9012) regarding case no. CRL/452/2025. Reach him at rajesh.kumar@example.com or +91 98765 43210.";
+    let autoActive = false;
+    let autoTimer = null;
+
+    function stopAutoDemo() {
+      if (!autoActive) return;
+      autoActive = false;
+      clearTimeout(autoTimer);
+      const ta = document.getElementById('demoInput');
+      ta.value = '';
+      runDemoDetection();
+    }
+
+    function runAutoDemo() {
+      const ta = document.getElementById('demoInput');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced) {
+        ta.value = DEMO_SAMPLE;
+        runDemoDetection();
+        return;
+      }
+
+      autoActive = true;
+      let i = 0;
+
+      function type() {
+        if (!autoActive) return;
+        ta.value = DEMO_SAMPLE.slice(0, i);
+        runDemoDetection();
+        i++;
+        if (i <= DEMO_SAMPLE.length) {
+          autoTimer = setTimeout(type, 32);
+        } else {
+          autoTimer = setTimeout(() => {
+            if (!autoActive) return;
+            ta.value = '';
+            runDemoDetection();
+            autoTimer = setTimeout(() => { if (autoActive) { i = 0; type(); } }, 900);
+          }, 3800);
+        }
+      }
+      type();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const ta = document.getElementById('demoInput');
+      const section = document.getElementById('demoSection');
+      if (!ta || !section) return;
+
+      ta.addEventListener('keydown', stopAutoDemo);
+      ta.addEventListener('paste', stopAutoDemo);
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            io.disconnect();
+            runAutoDemo();
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(section);
+    });
+  </script>
 
 </body>
 </html>
