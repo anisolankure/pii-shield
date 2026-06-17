@@ -535,12 +535,18 @@
     let autoActive = false;
     let autoTimer = null;
 
+    function setVal(ta, v) {
+      const sy = window.scrollY;
+      ta.value = v;
+      window.scrollTo(0, sy);
+    }
+
     function stopAutoDemo() {
       if (!autoActive) return;
       autoActive = false;
       clearTimeout(autoTimer);
       const ta = document.getElementById('demoInput');
-      ta.value = '';
+      setVal(ta, '');
       runDemoDetection();
     }
 
@@ -550,7 +556,7 @@
 
       // Reduced motion: show the finished sample with detections, no typing/loop.
       if (reduced) {
-        ta.value = DEMO_SAMPLE;
+        setVal(ta, DEMO_SAMPLE);
         runDemoDetection();
         return;
       }
@@ -560,7 +566,7 @@
 
       function type() {
         if (!autoActive) return;
-        ta.value = DEMO_SAMPLE.slice(0, i);
+        setVal(ta, DEMO_SAMPLE.slice(0, i));
         runDemoDetection();
         i++;
         if (i <= DEMO_SAMPLE.length) {
@@ -569,7 +575,7 @@
           // Hold the result, then reset and loop
           autoTimer = setTimeout(() => {
             if (!autoActive) return;
-            ta.value = '';
+            setVal(ta, '');
             runDemoDetection();
             autoTimer = setTimeout(() => { if (autoActive) { i = 0; type(); } }, 900);
           }, 3800);
