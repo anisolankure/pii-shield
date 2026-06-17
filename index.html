@@ -552,6 +552,12 @@
 
     function runAutoDemo() {
       const ta = document.getElementById('demoInput');
+
+      // On touch devices (mobile/tablet) programmatic textarea writes cause
+      // iOS Safari / Android Chrome to scroll the element into view mid-page.
+      // Skip the auto-demo — users can still type manually.
+      if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // Reduced motion: show the finished sample with detections, no typing/loop.
